@@ -475,11 +475,12 @@ class Interface:
         vxo = v0 * coseno
         vyo = v0 * seno
         g = 9.8
-        time = ((v0 * seno) / (2 * g)) + ((1 / g) * (sqrt(((v0 * seno) ** 2) + (2 * int(self.entrada_posicion_y0.get())*g))))
         altura = int(self.entrada_posicion_y0.get()) + (((v0 * seno) ** 2) / (2 * g))
+        imp = (g * yi / math.pow(v0, 2))
+        time = (v0 / g) * (seno + math.sqrt(math.pow(seno, 2) + 2 * imp))
 
         # __Ecuacion dividida en 4 partes para conseguir R__ #
-        R1 = (math.pow(v0, 2) * math.sin(2*angulo0)) / (2 * g)
+        R1 = (math.pow(v0, 2) * math.sin(2*angulo0)) / (2*g)
         R2 = (v0 * coseno) / g
         R3 = np.sqrt((math.pow((v0 * seno), 2)) + (2 * yi * g))
         R = xi + R1 + R2 * R3
@@ -497,11 +498,11 @@ class Interface:
         mpl.ylabel("Y(m)")
 
         # __Dibujado de la curva__ #
-        x = np.arange(0, time+3, 0.001)
+        x = np.arange(0, time, 0.001)
         c_y = yi + vyo * x + (1 / 2) * -9.8 * x ** 2      # Ecuacion de lanzamiento de proyectil
         c_x = xi + vxo * x + (1 / 2) * 0 * x ** 2     # Ecuacion de lanzamiento de proyectil
         mpl.plot(c_x, c_y, "-")  # lanzamiento completo
-        plt.plot(R, 0, "ro")
+        mpl.plot(R, 0, "ro")
         mpl.show()
         pass
 
