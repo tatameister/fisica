@@ -18,11 +18,7 @@ class Interface:
         self.angulo = np.radians(45)
         self.x0 = 0
         self.y0 = 0
-#<<<<<<< Updated upstream
         self.z0 = 0
-#=======
-#>>>>>>> Stashed changes
-#>>>>>>> Stashed changes
         self.window = tk.Tk()
         self.window.title("Fisica")
         self.window.minsize(800, 600)
@@ -350,116 +346,149 @@ class Interface:
         pass
 
     def boton_aceleracionf(self):
-        # pop up de ingreso de datos
-
-        # funcion de tiempo de impacto
-        def tiempo_impact():
-            return 0
-
-        # pop up
-
-        Pop_Up = tk.Tk()
-        Pop_Up.title("Aceleracion")
-        Pop_Up.minsize(400, 300)
-
-        label = tk.Label(Pop_Up)
-        label.pack()
-
-        #crear frame contenedor
-
-        # Separador de datos
-        separador = ttk.Separator(Pop_Up, orient="horizontal")
-        separador.pack(side=tk.TOP, expand=False, fill=tk.X)
-
-        e = ttk.Entry(Pop_Up)
-        e.pack(side=tk.BOTTOM, expand=True)
-
-        button = ttk.Button(Pop_Up, text='Evaluar', width=10, command=Pop_Up.destroy)
-        button.pack(side=tk.BOTTOM, padx=5, pady=5)
-
-        Pop_Up.mainloop()
-
-        # formulas de generamiento de datos a graficar
-        # funcion para el calculo de la coordenada horizontal
-        # generamiento de la grafica
-        # generacion del punto de posicion a medir
-        # generacion del vector con origen en el punto de posicion
-        # posible desplazamiento con deslizador
-
-            #funcion para la obtencion de tiempo impacto final
+        # funcion para la obtencion de tiempo impacto final
         def time_impact(self):
-            t = ((self.velocidad_inicial*sin(self.angulo))/(2* self.gravedad))+ ((1/self.gravedad)*(sqrt(((self.velocidad_inicial*sin(self.angulo))**2)+(2*self.y0*self.gravedad))))
+            t = ((self.velocidad_inicial * sin(self.angulo)) / self.gravedad) + ((1 / self.gravedad) * (
+                sqrt((((self.velocidad_inicial) ** 2) * ((sin(self.angulo) ** 2))) + (2 * self.y0 * self.gravedad))))
             print(t)
             return t
 
             # funcion para el calculo de la coordenada horizontal
+
         def cord_x(self, t):
             x = self.x0 + ((self.velocidad_inicial * cos(self.angulo)) * t)
             return x
 
             # funcion para el calculo de la coordenada vertical
+
         def cord_y(self, t):
             y = self.y0 + (((self.velocidad_inicial * (cos(self.angulo))) * t) - ((self.gravedad / 2) * (t ** 2)))
             return y
 
             # funcion altura maxima para graficar
+
         def altura_max(self):
-            r = self.y0+ (((self.velocidad_inicial * (sin(self.angulo)))**2)/(2*self.gravedad))
+            r = self.y0 + (((self.velocidad_inicial * (sin(self.angulo))) ** 2) / (2 * self.gravedad))
             return r
 
             # funcion alcance maximo para graficar
+
         def alcance_max(self):
-            alc = self.x0 + ((self.velocidad_inicial*sin(2*self.angulo))/(2*self.gravedad)) + \
-                             ((self.velocidad_inicial*cos(self.angulo)) /
-                              (self.gravedad))*sqrt(((self.velocidad_inicial*sin(self.angulo))**2) + 2*self.y0*self.gravedad)
+            alc = self.x0 + ((self.velocidad_inicial * sin(2 * self.angulo)) / self.gravedad) + \
+                  ((self.velocidad_inicial * cos(self.angulo)) /
+                   (self.gravedad)) * sqrt(
+                ((self.velocidad_inicial * sin(self.angulo)) ** 2) + 2 * self.y0 * self.gravedad)
             return alc
 
+            # generamiento de la grafica
 
-            # pop up de ingreso de datos
-        Pop_Up = tk.Tk()
-        Pop_Up.title("Aceleracion")
-        Pop_Up.minsize(400,300)
+        def GraficarFuncion(self):
+            self.tiempo_datos[0] = 1
+            # generacion de la grafica del tiempo ingresado
+            time = np.arange(0, self.tiempo_datos[0], 0.01)
+            x = cord_x(self, time)
+            y = cord_y(self, time)
 
-        label = tk.Label(Pop_Up)
-        label.pack()
+            # grafica completa del lanzamiento
+            time_complete = np.arange(0, time_impact(self), 0.01)
+            x2 = cord_x(self, time_complete)
+            y2 = cord_y(self, time_complete)
 
-        button = ttk.Button(Pop_Up, text = 'Evaluar' , width = 10, command = Pop_Up.destroy)
-        button.pack(side=tk.BOTTOM)
-        time_usuario = 1 #tiempo ingresado por el usuario(temporal)
+            # generacion del punto de posicion a medir
+            x3 = cord_x(self, self.tiempo_datos[0])
+            y3 = cord_y(self, self.tiempo_datos[0])
 
-        # generamiento de la grafica
+            # estetica de la grafica
+            mpl.title("Aceleracion")
+            mpl.xlim(0, alcance_max(self) + self.x0)
+            mpl.ylim(0, altura_max(self) + self.y0)
+            mpl.xlabel("-Distancia-")
+            mpl.ylabel("-Altura-")
 
-            #generacion de la grafica del tiempo ingresado
-        time = np.arange(0,time_usuario,0.01)
-        x = cord_x(self, time)
-        y = cord_y(self, time)
+            # generamiento de las curvas
+            mpl.plot(self.x0, self.y0, "k-o")  # punto pos inicial
+            mpl.plot(x, y, "y-")  # curva del usuario
+            mpl.plot(x2, y2, "k--")  # lanzamiento completo
+            mpl.plot(x3, y3, "r-o")  # punto del usuario
+            mpl.grid()  # cuadriculado
 
-            #grafica completa del lanzamiento
-        time_complete = np.arange(0,time_impact(self)+4, 0.01)
-        x2 = cord_x(self, time_complete)
-        y2 = cord_y(self, time_complete)
+            tiempesito = np.arange(0, y3 - time_impact(self), 0.01)
 
-            #generacion del punto de posicion a medir
-        x3 = cord_x(self, time_usuario)
-        y3 = cord_y(self, time_usuario)
+            def vector(tiempesito):
+                return 0
 
-            #estetica de la grafica
-        mpl.title("Aceleracion")
-        mpl.xlim(0,alcance_max(self)+self.x0)
-        mpl.ylim(0,altura_max(self)+self.y0)
-        mpl.xlabel("-Distancia-")
-        mpl.ylabel("-Altura-")
+            # generacion del vector con origen en el punto de posicion
+            mpl.plot(x3, y3, "g-o")
 
-            #generamiento de las curvas
-        mpl.plot(self.x0, self.y0, "k-o")#punto pos inicial
-        mpl.plot(x,y,"y-")#curva del usuario
-        mpl.plot(x2,y2,"k--")#lanzamiento completo
-        mpl.plot(x3, y3, "r-o")#punto del usuario
-        mpl.grid()#cuadriculado
+            mpl.show()
+            return 0
 
-            #generacion del vector con origen en el punto de posicion
-        mpl.plot()
-        mpl.show()
+        # pop up de ingreso de datos
+        def copiar_valores(event):
+            self.tiempo_datos[0] = entrada_tiempo.get()
+
+            master.destroy()
+
+        # Metodo para validar la entrada de datos (Solo Numeros por ahora)
+        def check(v, p):
+            if p.isdigit():
+                return True
+            elif p is "":
+                return True
+            else:
+                return False
+
+        # Datos Iniciales
+
+        #  inicializa la ventana popup
+        master = tk.Tk()
+        master.title("Posicion")
+        # Crea un frame contenedor para la izquierda y la derecha
+        frame_arriba = ttk.Frame(master)
+        frame_centro = ttk.Frame(master)
+        frame_abajo = ttk.Frame(master)
+        frame_aceptar = ttk.Frame(master)
+        validacion_tiempo = (frame_abajo.register(check), '%v', '%P')
+        # validacion_y = (frame_derecha.register(check), '%v', '%P')
+
+        frame_arriba.pack(side=tk.TOP, fill=tk.BOTH, expand=True, padx=5, pady=5)
+        frame_centro.pack(side=tk.TOP, fill=tk.BOTH, expand=True, padx=5, pady=5)
+        frame_abajo.pack(side=tk.TOP, fill=tk.BOTH, expand=True, padx=5, pady=5)
+        frame_aceptar.pack(side=tk.TOP, fill=tk.BOTH, expand=True, padx=5, pady=5)
+
+        # Crea las titulos de la entrada de datos
+        tiempo = ttk.Label(frame_abajo, text="Tiempo: ")
+        tiempo_init = ttk.Label(frame_arriba, text="Intervalo de tiempo")
+        tiempo_init_x = ttk.Entry(frame_arriba, state='readonly', justify='center')
+        tiempo_init_y = ttk.Entry(frame_arriba, state='readonly')
+        tiempo_init.pack(side=tk.TOP)
+        tiempo_init_x.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
+        tiempo_init_y.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
+        tiempo_init_x.configure(state='normal')
+        tiempo_init_x.delete(0, 'end')
+        tiempo_init_x.insert(0, "0")
+        tiempo_init_x.configure(state='readonly')
+        # inicializa el punto de interseccion del eje Y
+        tiempo_init_y.configure(state='normal')
+        tiempo_init_y.delete(0, 'end')
+        tiempo_init_y.insert(0, time_impact(self))
+        tiempo_init_y.configure(state='readonly')
+
+        # Separador de datos
+        separador = ttk.Separator(frame_centro, orient="horizontal")
+        separador.pack(side=tk.TOP, expand=False, fill=tk.X)
+        # Crea formularios para entrada de datos
+        entrada_tiempo = ttk.Entry(frame_abajo, validate="key", validatecommand=validacion_tiempo)
+        # entrada_y = ttk.Entry(frame_derecha, validate="key", validatecommand=validacion_y)
+
+        tiempo.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
+        # posicion_y.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
+
+        entrada_tiempo.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
+        # entrada_y.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
+        aceptar = ttk.Button(frame_aceptar, text="Evaluar", command=GraficarFuncion(self))
+        aceptar.pack(fill=tk.BOTH, expand=1)
+        aceptar.bind("<Button-1>", copiar_valores)
         #posible desplazamiento con
         pass
 
