@@ -593,6 +593,118 @@ class Interface:
         pass
 
     def boton_aceleracion_normal_y_tangencialf(self):
+        # Ecuaciones para el calculo de la aceleracion normal y tangencial
+
+        # Ecuacion aceleracion tangencial
+        def a_tangencial(self):
+            at = (((((self.velocidad_inicial * (cos(self.angulo)))) ** 2) + (
+                    (((self.velocidad_inicial * (sin(self.angulo)))))
+                    - self.gravedad * time_impact(self)) ** 2) / (
+                          (sqrt(self.velocidad_inicial * cos(self.velocidad_inicial)) ** 2) +
+                          (self.velocidad_inicial * sin(self.angulo) - (self.gravedad * time_impact(self)))))
+            print(at)
+            return at
+
+        # Ecuacion aceleracion normal
+        def a_normal(self):
+            an = ((((self.velocidad_inicial * sin(self.angulo)) - (self.gravedad * time_impact(self))) / (
+                    1 + (tan(self.angulo)
+                         - ((self.gravedad) / self.velocidad_inicial * cos(self.angulo) * time_impact(
+                        self)))) ** 3)) / abs((self.gravedad) /
+                                              (self.velocidad_inicial * cos(self.angulo)) ** 2)
+            print(an)
+            return an
+
+        # Pop up
+        Pop_Up = tk.Tk()
+        Pop_Up.title("Tiempo")
+        Pop_Up.minsize(400, 300)
+
+        label = tk.Label(Pop_Up)
+        label.pack()
+
+        # Crea un cuadro que contiene los datos
+
+        # Organiza los datos
+        separador = ttk.Separator(Pop_Up, orient="horizontal")
+        separador.pack(side=tk.TOP, expand=False, fill=tk.X)
+
+        # Tiempo Impacto
+        def time_impact(self):
+            t = ((self.velocidad_inicial * sin(self.angulo)) / (2 * self.gravedad)) + ((1 / self.gravedad) * (
+                sqrt(((self.velocidad_inicial * sin(self.angulo)) ** 2) + (2 * self.y0 * self.gravedad))))
+            print(t)
+            return t
+
+            # Coordenada X
+
+        def cord_x(self, t):
+            x = self.x0 + ((self.velocidad_inicial * cos(self.angulo)) * t)
+            return x
+
+            # # Coordenada Y
+
+        def cord_y(self, t):
+            y = self.y0 + (((self.velocidad_inicial * (cos(self.angulo))) * t) - ((self.gravedad / 2) * (t ** 2)))
+            return y
+
+            # Altura máxima gráfica
+
+        def altura_max(self):
+            r = self.y0 + (((self.velocidad_inicial * (sin(self.angulo))) ** 2) / (self.gravedad))
+            return r
+
+            # Alcance maximo gráfica
+
+        def alcance_max(self):
+            alc = self.x0 + ((self.velocidad_inicial * sin(2 * self.angulo)) / (self.gravedad)) + \
+                  ((self.velocidad_inicial * cos(self.angulo)) /
+                   (self.gravedad)) * sqrt(
+                ((self.velocidad_inicial * sin(self.angulo)) ** 2) + 2 * self.y0 * self.gravedad)
+            return alc
+
+        time_usuario = 1  # Tiempo ingresado(arreglar)
+
+        # Grafica del tiempo ingresado
+        time = np.arange(0, time_usuario, 0.01)
+        x = cord_x(self, time)
+        y = cord_y(self, time)
+
+        # Grafica completa lanzamiento
+        time_complete = np.arange(0, time_impact(self) + 4, 0.01)
+        x2 = cord_x(self, time_complete)
+        y2 = cord_y(self, time_complete)
+
+        # Punto de posicion a medir
+        x3 = cord_x(self, time_usuario)
+        y3 = cord_y(self, time_usuario)
+
+        # Detalles gráfica
+        mpl.title("Aceleracion normal y tangencial")
+        mpl.xlim(0, alcance_max(self) + self.x0)
+        mpl.ylim(0, altura_max(self) + self.y0)
+        mpl.xlabel("Distancia")
+        mpl.ylabel("Altura")
+
+        # Generación curvas
+        mpl.plot(self.x0, self.y0, "k-o")  # Posición inicial
+        mpl.plot(x, y, "y-")  # Curva
+        mpl.plot(x2, y2, "k--")  # Lanzamiento
+        # mpl.plot(x3, y3, "r-o")  # Punto ingresado  #Punto rojo de altura maxima
+        mpl.grid()  # Cuadriculacion del grafico
+
+        # Generación de las flechas para aceleración normal y tangencial
+        # >>>>Genera bien las flechas y texto, pero tira un warning. Falta arreglar<<<<
+        ax = mpl.axes()
+        ax1 = mpl.axes()
+        ax.text(15.4, 10.8, 'an', fontsize=9)  # Texto aceleracion normal
+        ax.arrow(x3, y3, 0, -4, head_width=0.5, head_length=1, fc='k', ec='k')  # Flecha de aceleracion normal
+        ax.text(18.7, 13.7, 'at', fontsize=9)  # Texto aceleracion tangencial
+        ax1.arrow(x3, y3, 5, 0, head_width=0.5, head_length=1, fc='k', ec='k')  # Flecha de aceleracion tangencial
+
+        # Muestra el grafico
+        mpl.plot()
+        mpl.show()
         pass
 
     def boton_vector_normalf(self):
