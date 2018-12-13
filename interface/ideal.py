@@ -400,7 +400,7 @@ class Interface:
         plt.xlabel("-X-")
         plt.ylabel("-Y-")
         x = np.arange(0, tiempo_maximo, 0.001)
-        x1 = int(E1.get())
+        x1 = int(input())
         h = math.sin(math.radians(int(angulo_inicial)))
         j = math.cos(math.radians(int(angulo_inicial)))
         y = yo + vyo * x + (1 / 2) * -9.8 * x ** 2
