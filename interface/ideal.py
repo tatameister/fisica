@@ -393,14 +393,23 @@ class Interface:
         z = xo + vxo * x + (1 / 2) * 0 * x ** 2
         y1 = yo + vyo * x1 + (1 / 2) * -9.8 * x1 ** 2
         z1 = xo + vxo * x1 + (1 / 2) * 0 * x1 ** 2
+        plt.legend(['A simple line'])
+
+        plt.legend(('No mask', 'Masked if > 0.5', 'Masked if < -0.5'),loc='upper right')
+
         vector_velocidadx= (vxo*x1)
         vector_velocidady = (vyo * h-(9.8*x1))
+        x2 = np.linspace(z1,vector_velocidadx+z1)
+        y2 = np.linspace(y1,vector_velocidady+y1)
+        x3 = np.linspace(z1, vector_velocidady+z1)
+        y3 = np.linspace(y1, vector_velocidadx)
+        plt.plot(x2, y2, 'o', color='green')
+        plt.plot(x3, y3, 'o', color='blue')
         plt.plot(z, y,"-")
         plt.plot(vector_velocidadx+z1, vector_velocidady+y1, "-o")
         plt.plot((vector_velocidady+z1), (vector_velocidadx), "-o")
         plt.plot(z1, y1, "-o")
         plt.show()
-
         pass
     def actualizar_grafico(self,ecuacion_x,ecuacion_y):
         self.figura.clear() # Refresca el gráfico
