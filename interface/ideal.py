@@ -14,10 +14,10 @@ class Interface:
     def __init__(self):
         # Valores Iniciales
         self.gravedad = 9.8
-        self.velocidad_inicial = 2
-        self.angulo = np.radians(45)
-        self.x0 = 0
-        self.y0 = 0
+        self.velocidad_inicial = 10
+        self.angulo = np.radians(2)
+        self.x0 = 8
+        self.y0 = 7
         self.z0 = 0
         self.window = tk.Tk()
         self.window.title("Fisica")
@@ -382,10 +382,12 @@ class Interface:
 
             # generamiento de la grafica
 
-        def GraficarFuncion(self):
-            self.tiempo_datos[0] = 1
+        def GraficarFuncion():
+
+            self.tiempo_dato = entrada_tiempo.get()
+
             # generacion de la grafica del tiempo ingresado
-            time = np.arange(0, self.tiempo_datos[0], 0.01)
+            time = np.arange(0,float(self.tiempo_dato),0.01)
             x = cord_x(self, time)
             y = cord_y(self, time)
 
@@ -395,8 +397,8 @@ class Interface:
             y2 = cord_y(self, time_complete)
 
             # generacion del punto de posicion a medir
-            x3 = cord_x(self, self.tiempo_datos[0])
-            y3 = cord_y(self, self.tiempo_datos[0])
+            x3 = cord_x(self, float(self.tiempo_dato))
+            y3 = cord_y(self, float(self.tiempo_dato))
 
             # estetica de la grafica
             mpl.title("Aceleracion")
@@ -407,27 +409,15 @@ class Interface:
 
             # generamiento de las curvas
             mpl.plot(self.x0, self.y0, "k-o")  # punto pos inicial
-            mpl.plot(x, y, "y-")  # curva del usuario
+            mpl.plot(x, y, "r-")  # curva del usuario
             mpl.plot(x2, y2, "k--")  # lanzamiento completo
             mpl.plot(x3, y3, "r-o")  # punto del usuario
+            mpl.plot(x3, y3 - time_impact(self), "g-v")
             mpl.grid()  # cuadriculado
-
-            tiempesito = np.arange(0, y3 - time_impact(self), 0.01)
-
-            def vector(tiempesito):
-                return 0
-
-            # generacion del vector con origen en el punto de posicion
-            mpl.plot(x3, y3, "g-o")
-
             mpl.show()
             return 0
 
         # pop up de ingreso de datos
-        def copiar_valores(event):
-            self.tiempo_datos[0] = entrada_tiempo.get()
-
-            master.destroy()
 
         # Metodo para validar la entrada de datos (Solo Numeros por ahora)
         def check(v, p):
@@ -438,18 +428,16 @@ class Interface:
             else:
                 return False
 
-        # Datos Iniciales
-
         #  inicializa la ventana popup
         master = tk.Tk()
         master.title("Posicion")
+
         # Crea un frame contenedor para la izquierda y la derecha
         frame_arriba = ttk.Frame(master)
         frame_centro = ttk.Frame(master)
         frame_abajo = ttk.Frame(master)
         frame_aceptar = ttk.Frame(master)
         validacion_tiempo = (frame_abajo.register(check), '%v', '%P')
-        # validacion_y = (frame_derecha.register(check), '%v', '%P')
 
         frame_arriba.pack(side=tk.TOP, fill=tk.BOTH, expand=True, padx=5, pady=5)
         frame_centro.pack(side=tk.TOP, fill=tk.BOTH, expand=True, padx=5, pady=5)
@@ -468,6 +456,7 @@ class Interface:
         tiempo_init_x.delete(0, 'end')
         tiempo_init_x.insert(0, "0")
         tiempo_init_x.configure(state='readonly')
+
         # inicializa el punto de interseccion del eje Y
         tiempo_init_y.configure(state='normal')
         tiempo_init_y.delete(0, 'end')
@@ -477,19 +466,12 @@ class Interface:
         # Separador de datos
         separador = ttk.Separator(frame_centro, orient="horizontal")
         separador.pack(side=tk.TOP, expand=False, fill=tk.X)
-        # Crea formularios para entrada de datos
         entrada_tiempo = ttk.Entry(frame_abajo, validate="key", validatecommand=validacion_tiempo)
-        # entrada_y = ttk.Entry(frame_derecha, validate="key", validatecommand=validacion_y)
-
         tiempo.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
-        # posicion_y.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
-
         entrada_tiempo.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
-        # entrada_y.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
-        aceptar = ttk.Button(frame_aceptar, text="Evaluar", command=GraficarFuncion(self))
+        aceptar = ttk.Button(frame_aceptar, text="Evaluar", command=GraficarFuncion)
         aceptar.pack(fill=tk.BOTH, expand=1)
-        aceptar.bind("<Button-1>", copiar_valores)
-        #posible desplazamiento con
+        master.mainloop()
         pass
 
     def boton_alcance_horizontalf(self):
