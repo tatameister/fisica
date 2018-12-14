@@ -632,6 +632,15 @@ class Interface:
         Pop_Up.title("Tiempo")
         Pop_Up.minsize(400, 300)
 
+    def boton_vector_normalf(self):
+        
+        velocidad = int(self.entrada_Rapidez_inicial.get())
+        angulo_inicial = int(self.entrada_angulo_inicial.get())
+        nose=(self.gravedad*int(self.entrada_posicion_y0.get())/math.pow(velocidad,2))
+        tiempo_maximov1=(velocidad/self.gravedad)*((math.sin(math.radians(angulo_inicial)))+math.sqrt(math.pow(math.sin(math.radians(angulo_inicial)),2)+2*nose))
+        tiempo_maximo=tiempo_maximov1
+        print (tiempo_maximov1)
+        
         label = tk.Label(Pop_Up)
         label.pack()
 
@@ -724,12 +733,25 @@ class Interface:
         Pop_Up.title("Rango Tiempo")
         Pop_Up.minsize(400, 300)
         L1 = tk.Label(Pop_Up, text="Eliga Tiempo a Evaluar")
-        E1 = tk.Entry(Pop_Up, bd=5)
-        E1.pack()
+        posicion = ttk.Frame(L1)
+        posicion.pack(side=tk.LEFT, expand=True, padx=5, pady=5)
+        E1 = ttk.Entry(posicion, justify=tk.CENTER)
+        E1.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+        E1.insert(tk.END, "5")
         L1.pack()
         label = tk.Label(Pop_Up)
         label.pack()
+        frame_arriba = ttk.Frame(Pop_Up)
+        hola = round(tiempo_maximov1,2)
+        strhola= str(hola)
+        inter = "Intervalo de tiempo= [0, "
+        suma=inter+strhola+"]"
 
+        frame_arriba.pack(side=tk.TOP, fill=tk.BOTH, expand=True, padx=5, pady=5)
+        tiempo_init = ttk.Label(frame_arriba, text=suma)
+        tiempo_init.pack(side=tk.TOP)
+        tiempo_init_x = ttk.Entry(frame_arriba, state='readonly', justify='center')
+        tiempo_init_x.insert(0, "0")
         button = ttk.Button(Pop_Up, text='Evaluar', width=10, command=Pop_Up.destroy)
 
         button.pack(side=tk.BOTTOM)
@@ -757,6 +779,8 @@ class Interface:
         z = xo + vxo * x + (1 / 2) * 0 * x ** 2
         y1 = yo + vyo * x1 + (1 / 2) * -9.8 * x1 ** 2
         z1 = xo + vxo * x1 + (1 / 2) * 0 * x1 ** 2
+
+
         vector_velocidadx= (vxo*x1)
         vector_velocidady = (vyo * h-(9.8*x1))
         mpl.plot(z, y,"-")
