@@ -357,51 +357,58 @@ class Interface:
         pass
 
     def boton_aceleracionf(self):
-
-            #funcion para la obtencion de tiempo impacto final
+        # funcion para la obtencion de tiempo impacto final
         def time_impact(self):
-            t = ((self.velocidad_inicial*sin(self.angulo))/(2* self.gravedad))+ ((1/self.gravedad)*(sqrt(((self.velocidad_inicial*sin(self.angulo))**2)+(2*self.y0*self.gravedad))))
+            t = ((self.velocidad_inicial * sin(self.angulo)) / self.gravedad) + ((1 / self.gravedad) * (
+                sqrt((((self.velocidad_inicial) ** 2) * ((sin(self.angulo) ** 2))) + (2 * self.y0 * self.gravedad))))
             print(t)
             return t
 
             # funcion para el calculo de la coordenada horizontal
+
         def cord_x(self, t):
             x = self.x0 + ((self.velocidad_inicial * cos(self.angulo)) * t)
             return x
 
             # funcion para el calculo de la coordenada vertical
+
         def cord_y(self, t):
             y = self.y0 + (((self.velocidad_inicial * (cos(self.angulo))) * t) - ((self.gravedad / 2) * (t ** 2)))
             return y
 
             # funcion altura maxima para graficar
+
         def altura_max(self):
-            r = self.y0+ (((self.velocidad_inicial * (sin(self.angulo)))**2)/(2*self.gravedad))
+            r = self.y0 + (((self.velocidad_inicial * (sin(self.angulo))) ** 2) / (2 * self.gravedad))
             return r
 
             # funcion alcance maximo para graficar
+
         def alcance_max(self):
-            alc = self.x0 + ((self.velocidad_inicial*sin(2*self.angulo))/(2*self.gravedad)) + \
-                             ((self.velocidad_inicial*cos(self.angulo)) /
-                              (self.gravedad))*sqrt(((self.velocidad_inicial*sin(self.angulo))**2) + 2*self.y0*self.gravedad)
+            alc = self.x0 + ((self.velocidad_inicial * sin(2 * self.angulo)) / self.gravedad) + \
+                  ((self.velocidad_inicial * cos(self.angulo)) /
+                   (self.gravedad)) * sqrt(
+                ((self.velocidad_inicial * sin(self.angulo)) ** 2) + 2 * self.y0 * self.gravedad)
             return alc
 
             # generamiento de la grafica
-        def GraficarFuncion(self,entrada_tiempo):
+        def GraficarFuncion(self):
+
+            self.tiempo_dato = entrada_tiempo.get()
 
             # generacion de la grafica del tiempo ingresado
-            time = np.arange(0, entrada_tiempo, 0.01)
+            time = np.arange(0,float(self.tiempo_dato),0.01)
             x = cord_x(self, time)
             y = cord_y(self, time)
 
             # grafica completa del lanzamiento
-            time_complete = np.arange(0, time_impact(self) + 4, 0.01)
+            time_complete = np.arange(0, time_impact(self), 0.01)
             x2 = cord_x(self, time_complete)
             y2 = cord_y(self, time_complete)
 
             # generacion del punto de posicion a medir
-            x3 = cord_x(self, entrada_tiempo)
-            y3 = cord_y(self, entrada_tiempo)
+            x3 = cord_x(self, float(self.tiempo_dato))
+            y3 = cord_y(self, float(self.tiempo_dato))
 
             # estetica de la grafica
             mpl.title("Aceleracion")
@@ -412,18 +419,123 @@ class Interface:
 
             # generamiento de las curvas
             mpl.plot(self.x0, self.y0, "k-o")  # punto pos inicial
-            mpl.plot(x, y, "y-")  # curva del usuario
+            mpl.plot(x, y, "r-")  # curva del usuario
             mpl.plot(x2, y2, "k--")  # lanzamiento completo
             mpl.plot(x3, y3, "r-o")  # punto del usuario
+            mpl.plot(x3, y3 - time_impact(self), "g-v")
             mpl.grid()  # cuadriculado
-
-            # generacion del vector con origen en el punto de posicion
-            mpl.plot(x3, y3 - time_impact(self), "g-o")
-
             mpl.show()
             return 0
 
         # pop up de ingreso de datos
+
+        # Metodo para validar la entrada de datos (Solo Numeros por ahora)
+        def check(v, p):
+            if p.isdigit():
+                return True
+            elif p is "":
+                return True
+            else:
+                return False
+
+        #  inicializa la ventana popup
+        master = tk.Tk()
+        master.title("Posicion")
+
+        # Crea un frame contenedor para la izquierda y la derecha
+        frame_arriba = ttk.Frame(master)
+        frame_centro = ttk.Frame(master)
+        frame_abajo = ttk.Frame(master)
+        frame_aceptar = ttk.Frame(master)
+        validacion_tiempo = (frame_abajo.register(check), '%v', '%P')
+
+        frame_arriba.pack(side=tk.TOP, fill=tk.BOTH, expand=True, padx=5, pady=5)
+        frame_centro.pack(side=tk.TOP, fill=tk.BOTH, expand=True, padx=5, pady=5)
+        frame_abajo.pack(side=tk.TOP, fill=tk.BOTH, expand=True, padx=5, pady=5)
+        frame_aceptar.pack(side=tk.TOP, fill=tk.BOTH, expand=True, padx=5, pady=5)
+
+        # Crea las titulos de la entrada de datos
+        tiempo = ttk.Label(frame_abajo, text="Tiempo: ")
+        tiempo_init = ttk.Label(frame_arriba, text="Intervalo de tiempo")
+        tiempo_init_x = ttk.Entry(frame_arriba, state='readonly', justify='center')
+        tiempo_init_y = ttk.Entry(frame_arriba, state='readonly')
+        tiempo_init.pack(side=tk.TOP)
+        tiempo_init_x.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
+        tiempo_init_y.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
+        tiempo_init_x.configure(state='normal')
+        tiempo_init_x.delete(0, 'end')
+        tiempo_init_x.insert(0, "0")
+        tiempo_init_x.configure(state='readonly')
+
+        # inicializa el punto de interseccion del eje Y
+        tiempo_init_y.configure(state='normal')
+        tiempo_init_y.delete(0, 'end')
+        tiempo_init_y.insert(0, time_impact(self))
+        tiempo_init_y.configure(state='readonly')
+
+        # Separador de datos
+        separador = ttk.Separator(frame_centro, orient="horizontal")
+        separador.pack(side=tk.TOP, expand=False, fill=tk.X)
+        entrada_tiempo = ttk.Entry(frame_abajo, validate="key", validatecommand=validacion_tiempo)
+        tiempo.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
+        entrada_tiempo.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
+        aceptar = ttk.Button(frame_aceptar, text="Evaluar", command=GraficarFuncion)
+        aceptar.pack(fill=tk.BOTH, expand=1)
+        master.mainloop()
+        pass
+
+    def boton_alcance_horizontalf(self):
+
+        # __Variables necesarias para conseguir R (alcance horizontal)__ #
+        xi = int(self.entrada_posicion_x0.get())
+        yi = int(self.entrada_posicion_y0.get())
+        v0 = int(self.entrada_Rapidez_inicial.get())
+        angulo0 = math.radians(int(self.entrada_angulo_inicial.get()))
+        coseno = math.cos(angulo0)
+        seno = math.sin(angulo0)
+        vxo = v0 * coseno
+        vyo = v0 * seno
+        g = 9.8
+        time = ((v0 * seno) / (2 * g)) + ((1 / g) * (sqrt(((v0 * seno) ** 2) + (2 * int(self.entrada_posicion_y0.get())*g))))
+        altura = int(self.entrada_posicion_y0.get()) + (((v0 * seno) ** 2) / (2 * g))
+
+        # __Ecuacion dividida en 4 partes para conseguir R__ #
+        R1 = (math.pow(v0, 2) * math.sin(2*angulo0)) / (2 * g)
+        R2 = (v0 * coseno) / g
+        R3 = np.sqrt((math.pow((v0 * seno), 2)) + (2 * yi * g))
+        R = xi + R1 + R2 * R3
+
+        imprimir = ("{0:.2f}".format(R))   # Imprimir guarda el resultado final (R) y lo deja con solo dos decimales
+        print("R = ", R)   # print de control
+
+        # __Estetica de la grafica__ #
+        mpl.suptitle('Alcance Horizontal:', fontsize=22)
+        mpl.subplots_adjust(top=0.80)
+        mpl.title(R, fontsize=18, color='C3')
+        mpl.xlim(0, R + 2)
+        mpl.ylim(-0.03, altura + 2)
+        mpl.xlabel("X(m)")
+        mpl.ylabel("Y(m)")
+
+        # __Dibujado de la curva__ #
+        x = np.arange(0, time+3, 0.001)
+        c_y = yi + vyo * x + (1 / 2) * -9.8 * x ** 2      # Ecuacion de lanzamiento de proyectil
+        c_x = xi + vxo * x + (1 / 2) * 0 * x ** 2     # Ecuacion de lanzamiento de proyectil
+        mpl.plot(c_x, c_y, "-")  # lanzamiento completo
+        plt.plot(R, 0, "ro")
+        mpl.show()
+        pass
+
+    def boton_altura_maximaf(self):
+        #ecuacion de altura maxima
+        x0 = self.x0
+        y0 = self.y0
+        angulo_inicial = self.angulo
+        v_inicial = self.velocidad_inicial
+        arriba = pow((v_inicial * sin(angulo_inicial)), 2) #la parte de arriba de la fraccion
+        result = (arriba / (2*9.8)) #La parte de abajo de la ecuacion
+        result = result + y0 # lo sumar la posicion incicial del eje y
+        final = round(result,5)
         def copiar_valores(event):
             self.tiempo_datos[0] = entrada_tiempo.get()
 
