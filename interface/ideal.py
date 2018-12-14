@@ -13,10 +13,11 @@ class Interface:
     def __init__(self):
         # Valores Iniciales
         self.gravedad = 9.8
+        self.velocidad_iniciacl = 2
+        self.angulo = np.radians(45)
+        self.x0 = 0
+        self.y0 = 0
         self.velocidad_inicial = 10
-        self.angulo = np.radians(10)
-        self.x0 = 7
-        self.y0 = 8
         self.z0 = 0
         self.window = tk.Tk()
         self.window.title("Fisica")
@@ -293,8 +294,19 @@ class Interface:
         aceptar.bind("<Button-1>", copiar_valores)
 
     def boton_velocidadf(self):
-        import matplotlib.pyplot as plt
-        import math
+        #  inicializa la ventana popup
+        master = tk.Tk()
+        master.title("Velocidad")
+        L1 = tk.Label(Pop_Up, text="Eliga Tiempo a Evaluar")
+        E1 = tk.Entry(Pop_Up, bd=5)
+        E1.pack()
+        L1.pack()
+        label = tk.Label(Pop_Up)
+        label.pack()
+
+        button = ttk.Button(Pop_Up, text='Evaluar', width=10, command=Pop_Up.destroy)
+
+        button.pack(side=tk.BOTTOM)
 
         def seno(Grado):
             # funcion para calcualar el seno de un angulo
