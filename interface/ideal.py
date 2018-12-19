@@ -6,7 +6,6 @@ import matplotlib as mpl
 import matplotlib.pyplot as mpl
 from matplotlib import collections  as mc
 from matplotlib.figure import Figure
-from pandas import DataFrame
 from matplotlib.backends.backend_tkagg import (
     FigureCanvasTkAgg, NavigationToolbar2Tk)
 
