@@ -6,6 +6,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as mpl
 from matplotlib import collections  as mc
 from matplotlib.figure import Figure
+from pandas import DataFrame
 from matplotlib.backends.backend_tkagg import (
     FigureCanvasTkAgg, NavigationToolbar2Tk)
 
@@ -37,13 +38,11 @@ class Interface:
         self.opciones = ttk.Frame(self.tab_ideal)
         self.graphics = ttk.LabelFrame(self.tab_ideal, text="Gráfica")
 
-        self.figura = Figure(figsize=(4, 3), dpi=100)  # define la proporcion del gráfico
-        self.ecuacion = np.arange(0, 10, .01)
-        self.figura.add_subplot(111).plot(self.ecuacion, self.ecuacion * self.ecuacion)
-        self.canvas = FigureCanvasTkAgg(self.figura, master=self.graphics)
-        self.canvas.draw()
-        self.canvas = self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
-
+        #grafico 2.0
+        self.figure = mpl.Figure(figsize=(6,5), dpi=100)
+        self.ax = self.figure.add_subplot(111)
+        self.lxz = FigureCanvasTkAgg(self.figure, self.graphics)
+        self.lxz.get_tk_widget().pack(side=tk.LEFT, fill=tk.BOTH, expand=1)
 
         # Inicializar los botones de la interfaz
         self.boton_posicion = ttk.Button(self.opciones, text="Posición", width=10, command=lambda: self.boton_posicionf())
@@ -219,18 +218,46 @@ class Interface:
         self.entrada_posicion_x0.insert(tk.END, self.entrada_posicion_x0.get())
     # Declaracion de botones0
     def boton_posicionf(self):
-        alcanze_horizontal = self.x0 + ((self.velocidad_inicial*sin(2*self.angulo))/(2*self.gravedad)) + \
-                             ((self.velocidad_inicial*cos(self.angulo)) /
-                              (self.gravedad))*sqrt(((self.velocidad_inicial*sin(self.angulo))**2) + 2*self.y0*self.gravedad)
-        x = linspace(0, alcanze_horizontal, 601)
+        xli= np.array([])
+        yli = np.array([])
+        x01 = 10
+        y01 = 10
+        angulox = degrees(20)
+        v01 = 5
+        t_impacto = ((v01*sin(angulox))/(2* self.gravedad))+ ((1/self.gravedad)*(sqrt(((v01*sin(angulox))**2)+(2*y01*self.gravedad))))
+        t = linspace(0, t_impacto, 601)
+        for d in t:
+            #np.append(xli,x01 + ((v01 * cos(angulox)) * d))
+            ex = x01 + ((v01 * cos(angulox)) * d)
+            xli = np.append(xli,ex)
+            ex2 = y01 + (((v01 * (cos(angulox))) * d) - ((self.gravedad / 2) * (d ** 2)))
+            yli = np.append(yli,ex2)
 
-        ecuacion_parametrica_x = (self.x0 + self.velocidad_inicial*cos(self.angulo)*x)
-        ecuacion_parametrica_y = (self.y0 + self.velocidad_inicial*sin(self.angulo)*x-(self.gravedad/2)*x**2)
-        self.actualizar_grafico(ecuacion_parametrica_x,ecuacion_parametrica_y)
+        # Ecuaciones
+        #Update de grafico
+        self.ax.set_title('Grafico Posicion')
+        self.ax.set_xlabel('distancia')
+        self.ax.set_ylabel('altura')
+        self.ax.set_xlim(0,20)
+        self.ax.set_ylim(0,20)
+        self.ax.grid()
+        self.ax.plot(xli,yli,"--")
+        self.figure.canvas.draw()
+        #alcanze_horizontal = self.x0 + ((self.velocidad_inicial*sin(2*self.angulo))/(2*self.gravedad)) + \
+                            # ((self.velocidad_inicial*cos(self.angulo)) /
+                            #  (self.gravedad))*sqrt(((self.velocidad_inicial*sin(self.angulo))**2) + 2*self.y0*self.gravedad)
+        #x = linspace(0, alcanze_horizontal, 601)
+
+        #ecuacion_parametrica_x = (self.x0 + self.velocidad_inicial*cos(self.angulo)*x)
+        #ecuacion_parametrica_y = (self.y0 + self.velocidad_inicial*sin(self.angulo)*x-(self.gravedad/2)*x**2)
+        #self.actualizar_grafico(ecuacion_parametrica_x,ecuacion_parametrica_y)
         # Metodo para almacenar datos de las entradas de datos
         def copiar_valores(event):
             self.tiempo_datos[0] = entrada_tiempo.get()
-
+         
+            #self.toolbar = NavigationToolbar2TkAgg(self.canvas, self.graphics)
+            #self.toolbar.pack()
+            #self.toolbar.update()
             master.destroy()
 
         # Metodo para validar la entrada de datos (Solo Numeros por ahora)
