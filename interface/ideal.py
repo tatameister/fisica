@@ -1,3 +1,4 @@
+#testline
 import tkinter as tk # ejecutar "sudo apt-get install python3-tk" si hay problemas con la importac
 from tkinter import ttk
 import numpy as np
