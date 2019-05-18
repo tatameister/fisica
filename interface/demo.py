@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-plt.rcParams['legend.fontsize'] = 10
+plt.rcParams['legend.fontsize'] = 12
 
 fig = plt.figure()
 ax = fig.gca(projection='3d')
