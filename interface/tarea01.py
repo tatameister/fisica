@@ -1,9 +1,7 @@
-import numpy as np
-import matplotlib.pyplot as plt
-
-import tkinter as tk
-
-from mpl_toolkits.mplot3d import Axes3D
+import numpy as np # liberia para el manejo de los arreglos
+import matplotlib.pyplot as plt # libreria de manejo de los graficos
+from mpl_toolkits.mplot3d import Axes3D # libreria para proyectar graficos en 3D
+import tkinter as tk # libreria para menejar las interface grafica
 
 
 def create_plot():
