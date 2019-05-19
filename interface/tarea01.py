@@ -55,7 +55,7 @@ def helice_conica():
 def helice_circular_1():
     # añadir sus códigos aca
     pass
-def helice_circular_2():
+def Corona_Sinusoidal():
     # añadir sus códigos aca
     pass
 def curva_de_viviani():
@@ -67,13 +67,13 @@ def hipopoda_1():
 def conica_de_papus():
     # añadir sus códigos aca
     pass
-def hipopoda_2():
+def Curva_de_Arquitas():
     # añadir sus códigos aca
     pass
 def horoptera():
     # añadir sus códigos aca
     pass
-def hipopoda_3():
+def Curva_Bicilindrica():
     # añadir sus códigos aca
     pass
 
@@ -100,7 +100,7 @@ if __name__ == '__main__':
     curva_de_ejemplo = tk.Button(master=frame, text="Hélice Circular 1", command=helice_circular_1)
     curva_de_ejemplo.pack(side=tk.BOTTOM, padx=10, pady=10)
 
-    curva_de_ejemplo = tk.Button(master=frame, text="Hélice Circular 2", command=helice_circular_2)
+    curva_de_ejemplo = tk.Button(master=frame, text="Corona Sinusoidal", command=Corona_Sinusoidal)
     curva_de_ejemplo.pack(side=tk.BOTTOM, padx=10, pady=10)
 
     curva_de_ejemplo = tk.Button(master=frame, text="Curva de Viviani", command=curva_de_ejemplo)
@@ -109,10 +109,10 @@ if __name__ == '__main__':
     curva_de_ejemplo = tk.Button(master=frame, text="Hipopoda 1", command=hipopoda_1)
     curva_de_ejemplo.pack(side=tk.BOTTOM, padx=10, pady=10)
 
-    curva_de_ejemplo = tk.Button(master=frame, text="Hipopoda 2", command=hipopoda_2)
+    curva_de_ejemplo = tk.Button(master=frame, text="Curva de Arquitas", command=Curva_de_Arquitas)
     curva_de_ejemplo.pack(side=tk.BOTTOM, padx=10, pady=10)
 
-    curva_de_ejemplo = tk.Button(master=frame, text="Hipopoda 3", command=hipopoda_3)
+    curva_de_ejemplo = tk.Button(master=frame, text="Curva Bicilindrica", command=Curva_Bicilindrica)
     curva_de_ejemplo.pack(side=tk.BOTTOM, padx=10, pady=10)
 
     curva_de_ejemplo = tk.Button(master=frame, text="Conica de Papus", command=conica_de_papus)
