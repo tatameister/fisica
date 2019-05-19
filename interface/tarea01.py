@@ -97,7 +97,7 @@ if __name__ == '__main__':
     curva_de_ejemplo = tk.Button(master=frame, text="Hélice Cónica", command=helice_conica)
     curva_de_ejemplo.pack(side=tk.BOTTOM, padx=10, pady=10)
 
-    curva_de_ejemplo = tk.Button(master=frame, text="Hélice Circular 1", command=helice_circular_1)
+    curva_de_ejemplo = tk.Button(master=frame, text="Hélice Circular", command=helice_circular_1)
     curva_de_ejemplo.pack(side=tk.BOTTOM, padx=10, pady=10)
 
     curva_de_ejemplo = tk.Button(master=frame, text="Corona Sinusoidal", command=Corona_Sinusoidal)
@@ -106,7 +106,7 @@ if __name__ == '__main__':
     curva_de_ejemplo = tk.Button(master=frame, text="Curva de Viviani", command=curva_de_ejemplo)
     curva_de_ejemplo.pack(side=tk.BOTTOM, padx=10, pady=10)
 
-    curva_de_ejemplo = tk.Button(master=frame, text="Hipopoda 1", command=hipopoda_1)
+    curva_de_ejemplo = tk.Button(master=frame, text="Hipopoda", command=hipopoda_1)
     curva_de_ejemplo.pack(side=tk.BOTTOM, padx=10, pady=10)
 
     curva_de_ejemplo = tk.Button(master=frame, text="Curva de Arquitas", command=Curva_de_Arquitas)
