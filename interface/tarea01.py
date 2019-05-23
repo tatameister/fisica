@@ -63,6 +63,42 @@ def curva_de_viviani():
     pass
 def hipopoda_1():
     # añadir sus códigos aca
+    '''
+           Integrantes:
+           - Boris Gutiérrez Cornejo (@BorisAndresLmb)
+           - Juan González Jélvez (@JuanGonzalez33)
+           - Pablo Barrera Whiteley (@Pablobw)
+           - José Flores Cáceres (@JoseFlores9)
+           - Cristobal Rojas Saavedra (@cristotix)
+
+           Función hipopoda_1: Grafica la hipopoda
+           Utiliza la forma paramétrica de la función
+           x= a+(r-a)*cos(t)
+           y=(r-a)*sen(t)
+           z=2*((a*(r-a))**1/2))*sen(t)
+           Parametros:
+           a= distancia del centro de la esfera al eje del cilindro
+           r=Radio de la esfera
+           return: plot Curve (Hipopede)
+           '''
+
+    plt.rcParams['legend.fontsize'] = 10
+
+    fig = plt.figure()
+    ax = fig.gca(projection='3d')
+
+    # Prepare arrays x, y, z
+    theta = np.linspace(-4 * np.pi, 4 * np.pi, 99)
+    a = 1
+    r = 5
+    x = a + (r - a) * np.cos(theta)
+    y = (r - a) * np.sin(theta)
+    z = 2 * (a * (r - a)) ** (1 / 2) * np.sin(theta / 2)
+    ax.plot(x, y, z, label='parametric curve')
+
+    ax.legend()
+
+    plt.show()
     pass
 def conica_de_papus():
     # añadir sus códigos aca
