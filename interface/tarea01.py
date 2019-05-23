@@ -53,7 +53,36 @@ def helice_conica():
     # añadir sus códigos aca
     pass
 def helice_circular_1():
+    """
+    Curva que depliega una una helice circular en una ventana nueva
+
+    Integrantes:
+    - Felipe Lopez Vergara (@felipelopez00)
+    - Bastian Bustamante Moraga (@BastianBustamante)
+    - Rodrigo Torrez Queupan (@imperium31)
+    - Juan Hernandez Gatica (@juanpablo1994)
+    -Eric Rojas Palma (@valukar)
+    :return: circular propeller
+    """
+
     # añadir sus códigos aca
+    n = 1000
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+
+    # caracteristicas de la helice circular
+    t_max = 8 * np.pi
+    t = np.linspace(0, t_max, n)
+    z = t
+    r = 5
+    y = r * np.sin(t)
+    x = r * np.cos(t)
+    ax.plot(x, y, z, 'b', lw=2)
+
+    # linea roja al centro de la helice circular
+    ax.plot((0, 0), (0, 0), (-t_max * 0.2, t_max * 1.2), color='r', lw=2)
+
+    plt.show()
     pass
 def Corona_Sinusoidal():
     # añadir sus códigos aca
