@@ -161,7 +161,38 @@ def hipopoda_1():
     plt.show()
     pass
 def conica_de_papus():
-    # añadir sus códigos aca
+    """
+        Curva que entrega una conica de papus en la interfaz grafica
+
+        Integrantes:
+        - José Fabián Ignacio González Encina (@GoldenFenix)
+        - Cristian Eduardo Castillo (@criseduardjjd)
+        - Diego Faundez Mendez(@diegofaundezm)
+        - Claudio Alcaino Muñoz (@klauser99)
+        - Francisco Castillo Moraga(@taifokk)
+        :return: conica de papus
+        """
+    plt.rcParams['legend.fontsize'] = 12
+
+    fig = plt.figure()
+    ax = fig.gca(projection='3d')
+
+    # Prepare arrays x, y, z
+    t = np.linspace(-9 * np.pi, 9 * np.pi, 100)
+
+    a1 = 30
+
+    a = 50
+    z = a1 * np.cos(a) * t
+    r = z ** 2 + 1
+    x = a1 * np.sin(a) * t * np.cos(t)
+    y = a1 * np.sin(a) * t * np.sin(t)
+
+    ax.plot(x, y, z, label='Curva Paramétrica de Ejemplo')
+    ax.legend()
+
+    plt.show()
+
     pass
 def Curva_de_Arquitas():
     # añadir sus códigos aca
