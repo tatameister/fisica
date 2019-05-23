@@ -51,6 +51,37 @@ def curva_de_ejemplo():
 
 def helice_conica():
     # añadir sus códigos aca
+    """
+        Curva de Ejemplo que despliega una Helice Cónica
+
+        Integrantes:
+        - Mario Labbé (@LsMario1998)
+        - Mario González (@tatameister)
+        - Cristóbal Cortés (@Cristobal140)
+        - Thadly Guerra (@Thadly64)
+        - Luis Inostroza (@luisinostrozaf)
+        :return: Curva Helice Cónica
+        """
+
+    plt.rcParams['legend.fontsize'] = 10
+
+    fig = plt.figure()
+    ax = fig.gca(projection='3d')
+
+    # Prepare arrays x, y, z
+    theta = np.linspace(-6 * np.pi, 6 * np.pi, 100)
+    print(np.cos((np.pi * 30) / 180))
+
+    e = 2.718281
+    a = 3
+    x = a * (e ** (np.sin(45) * (1 / np.tan(30) * theta))) * np.cos(theta)
+    y = a * (e ** (np.sin(45) * (1 / np.tan(30) * theta))) * np.sin(theta)
+    z = a * (e ** (np.sin(45) * (1 / np.tan(30) * theta))) * (1 / np.tan(45))
+
+    ax.plot(x, y, z, label='parametric curve')
+    ax.legend()
+
+    plt.show()
     pass
 def helice_circular_1():
     """
